@@ -1,9 +1,13 @@
 "use client";
 
+import { WuXing, YinYang } from "@/data/yinyang";
 import { useState } from "react";
 
 export default function Home() {
   const [year, setYear] = useState(2000);
+
+  // console.log(YinYang.getKorean("yang"));
+  // console.log(new WuXing().getChinese("earth"));
 
   const handleChangeYear = (e: React.ChangeEvent<HTMLInputElement>) => {
     setYear(+e.target.value);
