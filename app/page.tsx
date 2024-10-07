@@ -1,6 +1,6 @@
 "use client";
 
-import { WuXing, YinYang } from "@/data/yinyang";
+import { JiJangGan, Sky, WuXing, YinYang } from "@/data/yinyang";
 import { useState } from "react";
 
 export default function Home() {
@@ -8,6 +8,13 @@ export default function Home() {
 
   // console.log(YinYang.getKorean("yang"));
   // console.log(new WuXing().getChinese("earth"));
+  // console.log(
+  //   new JiJangGan({ sky: "갑", rate: 10 }, null, {
+  //     sky: "갑",
+  //     rate: 10,
+  //   }).getItem()
+  // );
+  console.log(Sky.getAll());
 
   const handleChangeYear = (e: React.ChangeEvent<HTMLInputElement>) => {
     setYear(+e.target.value);
