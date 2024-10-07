@@ -78,7 +78,7 @@ export class WuXing implements BaseAbstractClass {
   }
 }
 
-const skyMembers: Skies[] = [
+export const skyMembers: Skies[] = [
   "갑",
   "을",
   "병",
@@ -91,7 +91,7 @@ const skyMembers: Skies[] = [
   "계",
 ];
 
-type Skies =
+export type Skies =
   | "갑"
   | "을"
   | "병"
@@ -117,6 +117,7 @@ export class Sky {
   static 임: SkyType = [9, "임", "壬", WuXing.수, YinYang.양];
   static 계: SkyType = [10, "계", "癸", WuXing.수, YinYang.음];
 
+  //todo 타입정의
   private convertToObj(sky: SkyType) {
     return {
       idx: sky[0],
@@ -140,6 +141,9 @@ export class Sky {
       AllSkies.push(new Sky().convertToObj(Sky[el]))
     );
     return AllSkies;
+  }
+  static getOne(key: Skies) {
+    return new Sky().convertToObj(Sky[key]);
   }
   static getId(key: Skies) {
     return Sky[key][0];
@@ -336,4 +340,34 @@ export class Ground {
       { sky: "임", rate: 16.5 }
     ),
   ];
+
+  //todo 타입정의
+  private convertToObj(ground: SkyType) {
+    return {
+      idx: ground[0],
+      kr: ground[1],
+      ch: ground[2],
+      wuXing: {
+        kr: ground[3][0],
+        ch: ground[3][1],
+        color: ground[3][2],
+      },
+      YinYang: {
+        kr: ground[4][0],
+        ch: ground[4][1],
+      },
+    };
+  }
+
+  //todo 타입정의
+  // static getAll() {
+  //   let AllSkies: any[] = [];
+  //   skyMembers.forEach((el: Skies) =>
+  //     AllSkies.push(new Ground().convertToObj(Ground[el]))
+  //   );
+  //   return AllSkies;
+  // }
+  // static getOne(key: Skies) {
+  //   return new Ground().convertToObj(Ground[key]);
+  // }
 }
