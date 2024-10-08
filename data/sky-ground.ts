@@ -1,110 +1,14 @@
-class BaseAbstractClass {
-  // abstract getKorean(key:any):string;
-  // abstract getChinese(key:any):string;
-}
+import { GroundMembers, Grounds, Skies, skyMembers } from "./core";
+import {
+  GroundReturn,
+  GroundType,
+  JiJangGanInput,
+  JiJangGanOutput,
+  SkyType,
+} from "./types";
+import { WuXing, YinYang } from "./yinyang-wuxing";
 
-interface Atom extends BaseAbstractClass {
-  getYinYang(): () => string;
-}
-
-interface GanJi extends BaseAbstractClass {
-  getWuXing(): () => string;
-}
-
-interface BaseKey {
-  id?: number;
-  kr: string;
-  ch: string;
-}
-
-type YinYangKey = "음" | "양";
-
-//음양 클래스
-export class YinYang implements BaseAbstractClass {
-  static readonly 양 = ["양", "陽", 1];
-  static readonly 음 = ["음", "陰", -1];
-
-  private convertToObj([kr, ch, value]: string[]) {
-    return {
-      kr,
-      ch,
-      value,
-    };
-  }
-
-  static getAll() {}
-
-  static getKorean(key: YinYangKey) {
-    return YinYang[key][0];
-  }
-  static getChinese(key: YinYangKey) {
-    return YinYang[key][1];
-  }
-}
-
-interface WuXingKeys extends BaseKey {
-  color: string;
-}
-
-type WuXings = "목" | "화" | "토" | "금" | "수";
-
-// 오행 클래스
-export class WuXing implements BaseAbstractClass {
-  static readonly 목 = ["목", "木", "#4CAF50"];
-  static readonly 화 = ["화", "火", "#F44336"];
-  static readonly 토 = ["토", "土", "#FFD600"];
-  static readonly 금 = ["금", "金", "#E0E0E0"];
-  static readonly 수 = ["수", "水", "#039BE5"];
-
-  private convertToObj([kr, ch, color]: string[]) {
-    return {
-      kr,
-      ch,
-      color,
-    };
-  }
-
-  static getKorean(key: WuXings) {
-    // return this.convertToObj(WuXing[key]).kr;
-    return WuXing[key][0];
-  }
-  static getChinese(key: WuXings) {
-    // return this.convertToObj(WuXing[key]).ch;
-    return WuXing[key][1];
-  }
-  static getColor(key: WuXings) {
-    // return this.convertToObj(WuXing[key]).color;
-    return WuXing[key][2];
-  }
-}
-
-export const skyMembers: Skies[] = [
-  "갑",
-  "을",
-  "병",
-  "정",
-  "무",
-  "기",
-  "경",
-  "신",
-  "임",
-  "계",
-];
-
-export type Skies =
-  | "갑"
-  | "을"
-  | "병"
-  | "정"
-  | "무"
-  | "기"
-  | "경"
-  | "신"
-  | "임"
-  | "계";
-
-type SkyType = [number, string, string, string[], (string | number)[]];
-
+//천간 클래스
 export class Sky {
   static 갑: SkyType = [1, "갑", "甲", WuXing.목, YinYang.양];
   static 을: SkyType = [2, "을", "乙", WuXing.목, YinYang.음];
@@ -162,22 +66,11 @@ export class Sky {
   }
 }
 
-interface JiJangGanInput {
-  sky: Skies;
-  rate: number;
-}
-
-interface JiJangGanOutput {
-  rate: number;
-  korean: string;
-  chinese: string;
-  wuxing: string[];
-}
-
+//지장간 클래스
 export class JiJangGan {
-  private first: JiJangGanOutput | null;
-  private second: JiJangGanOutput | null;
-  private third: JiJangGanOutput | null;
+  public first: JiJangGanOutput | null;
+  public second: JiJangGanOutput | null;
+  public third: JiJangGanOutput | null;
 
   constructor(
     first: JiJangGanInput | null,
@@ -207,8 +100,18 @@ export class JiJangGan {
   }
 }
 
+type GroundValue = [
+  number,
+  string,
+  string,
+  (string | number)[],
+  string[],
+  JiJangGan
+];
+
+//지지 클래스
 export class Ground {
-  static 자 = [
+  static 자: GroundValue = [
     1,
     "자",
     "子",
@@ -216,7 +119,7 @@ export class Ground {
     WuXing.수,
     new JiJangGan({ sky: "임", rate: 10.1 }, null, { sky: "계", rate: 20.2 }),
   ];
-  static 축 = [
+  static 축: GroundValue = [
     2,
     "축",
     "丑",
@@ -228,7 +131,7 @@ export class Ground {
       { sky: "기", rate: 18.6 }
     ),
   ];
-  static 인 = [
+  static 인: GroundValue = [
     3,
     "인",
     "寅",
@@ -240,7 +143,7 @@ export class Ground {
       { sky: "갑", rate: 16.5 }
     ),
   ];
-  static 묘 = [
+  static 묘: GroundValue = [
     4,
     "묘",
     "卯",
@@ -248,7 +151,7 @@ export class Ground {
     WuXing.목,
     new JiJangGan({ sky: "갑", rate: 10.3 }, null, { sky: "을", rate: 20.6 }),
   ];
-  static 진 = [
+  static 진: GroundValue = [
     5,
     "진",
     "辰",
@@ -260,7 +163,7 @@ export class Ground {
       { sky: "무", rate: 18.6 }
     ),
   ];
-  static 사 = [
+  static 사: GroundValue = [
     6,
     "사",
     "巳",
@@ -272,7 +175,7 @@ export class Ground {
       { sky: "병", rate: 16.5 }
     ),
   ];
-  static 오 = [
+  static 오: GroundValue = [
     7,
     "오",
     "午",
@@ -284,7 +187,7 @@ export class Ground {
       { sky: "정", rate: 11.2 }
     ),
   ];
-  static 미 = [
+  static 미: GroundValue = [
     8,
     "미",
     "未",
@@ -296,7 +199,7 @@ export class Ground {
       { sky: "기", rate: 18.6 }
     ),
   ];
-  static 신 = [
+  static 신: GroundValue = [
     9,
     "신",
     "申",
@@ -308,7 +211,7 @@ export class Ground {
       { sky: "경", rate: 16.5 }
     ),
   ];
-  static 유 = [
+  static 유: GroundValue = [
     10,
     "유",
     "酉",
@@ -316,7 +219,7 @@ export class Ground {
     WuXing.금,
     new JiJangGan({ sky: "경", rate: 10.3 }, null, { sky: "신", rate: 20.6 }),
   ];
-  static 술 = [
+  static 술: GroundValue = [
     11,
     "술",
     "戌",
@@ -328,7 +231,7 @@ export class Ground {
       { sky: "무", rate: 18.6 }
     ),
   ];
-  static 해 = [
+  static 해: GroundValue = [
     12,
     "해",
     "亥",
@@ -342,8 +245,8 @@ export class Ground {
   ];
 
   //todo 타입정의
-  private convertToObj(ground: SkyType) {
-    return {
+  private convertToObj(ground: GroundValue) {
+    const converted = {
       idx: ground[0],
       kr: ground[1],
       ch: ground[2],
@@ -352,22 +255,28 @@ export class Ground {
         ch: ground[3][1],
         color: ground[3][2],
       },
-      YinYang: {
+      yinYang: {
         kr: ground[4][0],
         ch: ground[4][1],
       },
+      jiJangGan: {
+        first: ground[5].first,
+        second: ground[5].second,
+        third: ground[5].third,
+      },
     };
+    return converted;
   }
 
   //todo 타입정의
-  // static getAll() {
-  //   let AllSkies: any[] = [];
-  //   skyMembers.forEach((el: Skies) =>
-  //     AllSkies.push(new Ground().convertToObj(Ground[el]))
-  //   );
-  //   return AllSkies;
-  // }
-  // static getOne(key: Skies) {
-  //   return new Ground().convertToObj(Ground[key]);
-  // }
+  static getAll() {
+    let AllGrounds: GroundReturn[] = [];
+    GroundMembers.forEach((el: Grounds) =>
+      AllGrounds.push(new Ground().convertToObj(Ground[el]))
+    );
+    return AllGrounds;
+  }
+  static getOne(key: Grounds): GroundReturn {
+    return new Ground().convertToObj(Ground[key]);
+  }
 }
